@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import "./Tickets.css"
 import { useNavigate } from "react-router-dom"
-export const TicketList = () => {
+import { Link } from 'react-router-dom';
+export const TicketList = ({ searchTermState }) => {
     const [tickets, setTickets] = useState([])
     const [filteredTickets, setFiltered] = useState([])
     const [emergency, setEmergency] = useState(false)
@@ -10,6 +11,16 @@ export const TicketList = () => {
 
     const localHoneyUser = localStorage.getItem("honey_user")
     const honeyUserObject = JSON.parse(localHoneyUser)
+
+    useEffect(
+        () => {
+            const searchTickets = tickets.filter(ticket => { 
+                return ticket.description.toLowerCase().startsWith(searchTermState.toLowerCase())
+            })
+            setFiltered(searchTickets)
+        },
+        [ searchTermState ]
+    )
 
     useEffect(
         () => {
@@ -81,7 +92,10 @@ export const TicketList = () => {
                 filteredTickets.map(
                     (ticket) => {
                         return <section className="ticket">
-                            <header>{ticket.description}</header>
+                            <header>
+                                <Link to={`/tickets/${ticket.id}/edit`}>Ticket {ticket.id}</Link>
+                            </header>
+                            <section>{ticket.description}</section>
                             <footer>Emergency: {ticket.emergency ? "bombEmoji" : "no"}</footer>
                         </section>
                     }

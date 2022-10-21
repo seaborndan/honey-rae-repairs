@@ -1,20 +1,20 @@
 import { Link, useNavigate } from "react-router-dom"
-import { CustomerNav } from "./CustomerNav"
-import { EmployeeNav } from "./EmployeeNav"
-import "./NavBar.css"
+import { CustomerForm } from "./CustomerForm"
+import { EmployeeForm } from "./EmployeeForm"
 
-export const NavBar = () => {
+export const Profile = () => {
 	
   const localHoneyUser = localStorage.getItem("honey_user")
   const honeyUserObject = JSON.parse(localHoneyUser)
 
 	if(honeyUserObject.staff) {
 		//return employee view
-		return <EmployeeNav />
+    
+		return <EmployeeForm />
 	}
 	else {
 		//return customer views
-		return <CustomerNav />
+		return <CustomerForm />
 	}
 }
 
